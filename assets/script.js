@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }).addTo(map);
 
     const sqlPromise = initSqlJs({ locateFile: file => `libs/sql-wasm.wasm` });
-    const dbPromise = fetch("data/communes_2024.sqlite")
+    const dbPromise = fetch("data/communes.sqlite")
         .then(res => res.arrayBuffer())
         .then(buf => sqlPromise.then(SQL => new SQL.Database(new Uint8Array(buf))));
     let totalPopulationFrance = 0;
@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const legend = L.control({ position: "bottomright" });
     legend.onAdd = function () {
         const div = L.DomUtil.create("div", "legend"),
-              grades = [0, 500, 1000, 2000, 5000];
+              grades = [0, 1000, 2000, 3000, 5000];
 
         div.innerHTML += "<strong>Travel Distance</strong><br>";
         for (let i = 0; i < grades.length; i++) {
@@ -212,9 +212,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const equipmentColumnIndexes = {
             "nearest_ATM": 8,
             "nearest_Bank": 9,
-            "nearest_BP": 10,
-            "nearest_BankBP": 11,
-            "nearest_BP_PC": 12
+            "nearest_BP": 10
         };
     
         // Get the correct column index based on selectedEquipment
@@ -224,7 +222,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const geoJsonData = {
             type: "FeatureCollection",
             features: results.map(row => {
-                const population = row[13] || 0;
+                const population = row[11] || 0;
                 const distance = row[equipmentIndex] || 0;
 
                 totalPopulation += population;
@@ -242,7 +240,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
 
         updateStatistics(results.length, totalPopulation, weightedDistanceSum, totalHouseholds5km);
-
+        
         const geoJsonLayer = L.geoJSON(geoJsonData, {
             // layer.bindTooltip(`<strong>${feature.properties.name}</strong>: ${feature.properties.selectedEquipment}m`);
 
@@ -282,9 +280,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function getColor(value) {
         return value > 5000 ? "#eff3ff" :
-               value > 2000 ? "#bdd7e7" :
-               value > 1000 ? "#6baed6" :
-               value > 500 ? "#3182bd" :
+               value > 3000 ? "#bdd7e7" :
+               value > 2000 ? "#6baed6" :
+               value > 1000 ? "#3182bd" :
                "#08519c";
     }
 
@@ -455,10 +453,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         let query = `
             SELECT 
                 libdens, 
-                SUM(CASE WHEN ${selectedEquipment} <= 500 THEN total_population ELSE 0 END) AS "0-500m",
-                SUM(CASE WHEN ${selectedEquipment} > 500 AND ${selectedEquipment} <= 1000 THEN total_population ELSE 0 END) AS "500-1000m",
+                SUM(CASE WHEN ${selectedEquipment} <= 1000 THEN total_population ELSE 0 END) AS "0-1000m",
                 SUM(CASE WHEN ${selectedEquipment} > 1000 AND ${selectedEquipment} <= 2000 THEN total_population ELSE 0 END) AS "1000-2000m",
-                SUM(CASE WHEN ${selectedEquipment} > 2000 AND ${selectedEquipment} <= 5000 THEN total_population ELSE 0 END) AS "2000-5000m",
+                SUM(CASE WHEN ${selectedEquipment} > 2000 AND ${selectedEquipment} <= 3000 THEN total_population ELSE 0 END) AS "2000-3000m",
+                SUM(CASE WHEN ${selectedEquipment} > 3000 AND ${selectedEquipment} <= 5000 THEN total_population ELSE 0 END) AS "3000-5000m",
                 SUM(CASE WHEN ${selectedEquipment} > 5000 THEN total_population ELSE 0 END) AS "5000m+",
                 SUM(total_population) AS total_population
             FROM communes WHERE 1=1
@@ -471,7 +469,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const result = db.exec(query)[0].values;
     
         const labels = order.filter(label => result.some(row => row[0] === label));
-        const categories = ["0-500m", "500-1000m", "1000-2000m", "2000-5000m", "5000m+"];
+        const categories = ["0-1000m", "1000-2000m", "2000-3000m", "3000-5000m", "5000m+"];
     
         const values = categories.map((_, i) => labels.map(label => (result.find(row => row[0] === label)[i + 1] / result.find(row => row[0] === label)[6]) * 100));
 
