@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_ATM", "figATM_2");
                 loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_Bank", "figBank");
                 loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_Bank", "figBank_2");
-                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP_PC", "figBP_PC");
-                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP_PC", "figBP_PC");
+                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP", "figBP_PC");
+                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP", "figBP_PC");
             });
         });
 
@@ -54,8 +54,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 loadFigure2(db, dep[0], "", "", "nearest_ATM", "figATM_2");
                 loadFigure1(db, dep[0], "", "", "nearest_Bank", "figBank");
                 loadFigure2(db, dep[0], "", "", "nearest_Bank", "figBank_2");
-                loadFigure1(db, dep[0], "", "", "nearest_BP_PC", "figBP_PC");
-                loadFigure2(db, dep[0], "", "", "nearest_BP_PC", "figBP_PC_2");
+                loadFigure1(db, dep[0], "", "", "nearest_BP", "figBP_PC");
+                loadFigure2(db, dep[0], "", "", "nearest_BP", "figBP_PC_2");
             });
             departmentDropdown.appendChild(listItem);
         });
@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 loadFigure2(db, "", reg[0], "", "nearest_ATM", "figATM_2");
                 loadFigure1(db, "", reg[0], "", "nearest_Bank", "figBank");
                 loadFigure2(db, "", reg[0], "", "nearest_Bank", "figBank_2");
-                loadFigure1(db, "", reg[0], "", "nearest_BP_PC", "figBP_PC");
-                loadFigure2(db, "", reg[0], "", "nearest_BP_PC", "figBP_PC_2");
+                loadFigure1(db, "", reg[0], "", "nearest_BP", "figBP_PC");
+                loadFigure2(db, "", reg[0], "", "nearest_BP", "figBP_PC_2");
             });
             regionDropdown.appendChild(listItem);
         });
@@ -126,8 +126,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 loadFigure2(db, "", "", ld[0], "nearest_ATM", "figATM_2");
                 loadFigure1(db, "", "", ld[0], "nearest_Bank", "figBank");
                 loadFigure2(db, "", "", ld[0], "nearest_Bank", "figBank_2");
-                loadFigure1(db, "", "", ld[0], "nearest_BP_PC", "figBP_PC");
-                loadFigure2(db, "", "", ld[0], "nearest_BP_PC", "figBP_PC_2");
+                loadFigure1(db, "", "", ld[0], "nearest_BP", "figBP_PC");
+                loadFigure2(db, "", "", ld[0], "nearest_BP", "figBP_PC_2");
             });
             libdensDropdown.appendChild(listItem);
         });
@@ -138,8 +138,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             loadFigure2(db, "", "", "", "nearest_ATM", "figATM_2");
             loadFigure1(db, "", "", "", "nearest_Bank", "figBank");
             loadFigure2(db, "", "", "", "nearest_Bank", "figBank_2");
-            loadFigure1(db, "", "", "", "nearest_BP_PC", "figBP_PC");
-            loadFigure2(db, "", "", "", "nearest_BP_PC", "figBP_PC_2");
+            loadFigure1(db, "", "", "", "nearest_BP", "figBP_PC");
+            loadFigure2(db, "", "", "", "nearest_BP", "figBP_PC_2");
             document.getElementById("departmentDropdown").textContent = "Default";
             document.getElementById("regionDropdown").textContent =  "Default";
             document.getElementById("libdensDropdown").textContent = "Default";
@@ -154,8 +154,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         loadFigure2(db, "", "", "", "nearest_ATM", "figATM_2");
         loadFigure1(db, "", "", "", "nearest_Bank", "figBank");
         loadFigure2(db, "", "", "", "nearest_Bank", "figBank_2");
-        loadFigure1(db, "", "", "", "nearest_BP_PC", "figBP_PC");
-        loadFigure2(db, "", "", "", "nearest_BP_PC", "figBP_PC_2");
+        loadFigure1(db, "", "", "", "nearest_BP", "figBP_PC");
+        loadFigure2(db, "", "", "", "nearest_BP", "figBP_PC_2");
     });
 
 
