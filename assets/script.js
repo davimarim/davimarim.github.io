@@ -274,8 +274,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     function updateStatistics(municipalityCount, totalPopulation, weightedDistanceSum, totalHouseholds5km) {
         document.getElementById("num-municipalities").innerHTML = `<span style="font-size: 30px;">${municipalityCount}</span>municipalities`;
         document.getElementById("percentage-households").innerHTML = `<span style="font-size: 30px;">${(totalPopulationFrance > 0 ? ((totalPopulation / totalPopulationFrance) * 100).toFixed(1) : 0)}%</span>of France's population`;
-        document.getElementById("avg-distance").innerHTML = `<span style="font-size: 30px;">${(totalPopulation > 0 ? (weightedDistanceSum / totalPopulation).toFixed(0) : 0)}m</span>on average to nearest ATM`;
-        document.getElementById("households-5km").innerHTML = `<span style="font-size: 30px;">${(totalPopulation > 0 ? ((totalHouseholds5km / totalPopulation) * 100).toFixed(0) : 0)}%</span>of population within 5 km of an ATM`;
+        document.getElementById("avg-distance").innerHTML = `<span style="font-size: 30px;">${(totalPopulation > 0 ? (weightedDistanceSum / totalPopulation).toFixed(0) : 0)}m</span>on average to nearest equipment`;
+        document.getElementById("households-5km").innerHTML = `<span style="font-size: 30px;">${(totalPopulation > 0 ? ((totalHouseholds5km / totalPopulation) * 100).toFixed(0) : 0)}%</span>of population within 5 km of an equipment`;
     }
 
     function getColor(value) {
