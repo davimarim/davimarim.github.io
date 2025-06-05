@@ -169,15 +169,17 @@
                             The travel distance calculations were based on a <strong>1000x1000 meter geographical grid</strong> across France. Each distance was measured from the nearest official address to the center of every populated hectare, ensuring a realistic assessment of accessibility.
                         </p>
                         <p>
-                            Two types of distance metrics were considered:
-                            <ul>
-                                <li><strong>Euclidean distance</strong> (or "as-the-crow-flies"), providing a direct measurement between a populated hectare and the closest ATM.</li>
-                                <li><strong>Population-weighted travel distance</strong>, accounting for population spatial distribution and calculating the average distance residents must travel to access cash, grouped at the <strong>commune level</strong>.</li>
-                            </ul>
+                            Distances are computed using the Distancier METRIC tool provided by INSEE, which estimates travel distances along the road network using <strong>OpenStreetMap</strong> data. For each 1 km² grid cell, the road distance to the nearest cash access point was calculated.
                         </p>
-                        <p>Under construction...</p>
-                        <p>More details will be added soon.</p>
+                        <p>
+                            These distances were then aggregated at the <strong>commune level</strong> using a <strong>population-weighted average</strong>, ensuring that more densely populated areas have a proportionally greater influence in the calculation.
+                        </p>
+
                     </section>
+                    <br></br>
+                        <p>
+                             This methodology was inspired by the <a href="https://dashboard.moneymap.ch" target="_blank" rel="noopener noreferrer">Swiss dashboard</a> on financial service accessibility, adapted here to the French territory.
+                        </p>
 
 
 
