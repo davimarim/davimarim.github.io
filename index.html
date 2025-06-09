@@ -39,10 +39,10 @@
             <button class="sidebar-btn" id="conclusion-btn">Methodology</button>
 
 
-            <label for="department-select">Equipment type for Map:</label>
+            <label for="department-select">ATM, Bank, or Post</label>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="equipmentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select equipment
+                    ATM
                 </button>
                 <ul class="dropdown-menu" id="equipment-select">
                     <li><a class="dropdown-item" href="#" data-value="nearest_ATM">ATM</a></li>
@@ -52,26 +52,26 @@
             </div>
             
 
-            <label for="department-select">Department:</label>
+            <label for="department-select">Department</label>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Default
+                    No selection
                 </button>
                 <ul class="dropdown-menu w-100" id="department-select"></ul>
             </div>
 
-            <label for="region-select">Region:</label>
+            <label for="region-select">Region</label>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="regionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Default
+                    No selection
                 </button>
                 <ul class="dropdown-menu w-100" id="region-select"></ul>
             </div>
 
-            <label for="libdens-select">Commune Type:</label>
+            <label for="libdens-select">Municipality Type</label>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="libdensDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Default
+                    No selection
                 </button>
                 <ul class="dropdown-menu w-100" id="libdens-select"></ul>
             </div>
@@ -141,44 +141,53 @@
             <div id="conclusion-content"  style="display: none;">
 
                 <div class="conclusion-container">
-                    <h1>Methodology</h1>
+                    <!-- <h1>Methodology</h1> -->
 
                     <section class="description">
                         <h3>Project Overview</h3>
                         <p>
-                            This project aims to analyze the accessibility of cash withdrawal points across France. As digital payments become more dominant and the costs of cash transactions increase, ensuring equitable access to ATMs remains a critical issue. By mapping and evaluating the spatial distribution of cash access points, we seek to provide a valuable tool for understanding the efficiency of cash circulation and identifying potential service gaps.
+                            The French Money Map (FMM) provides a spatial analysis of cash access points in France. It aims to analyze the accessibility of ATMs across France, ensuring equitable access as digital payments become more prevalent. By mapping and evaluating the spatial distribution of cash access points, we provide a valuable tool for understanding the efficiency of cash circulation.
                         </p>
                         <p>
-                            A key focus of this study is to measure the actual travel distance required to reach the nearest ATM. This allows us to assess disparities in cash access across different regions and offer insights into potential improvements in financial infrastructure.
+                            A key focus of this project is measuring the actual travel distance to the nearest ATM. This assessment helps identify disparities in cash access across different regions and offers insights into potential improvements in financial infrastructure.
                         </p>
+
+                        <p>
+                            This project is part of the <a href="https://digital-finances.com/" target="_blank" rel="noopener noreferrer">Digital Finance Chair</a>, which aims to conduct research on all innovations, services, products, or organizational changes related to digital technology that could potentially transform the role of financial intermediaries. The partners of the Digital Finance research chair include Télécom Paris, Université Paris-Panthéon-Assas, Institut Louis Bachelier, Groupement des Cartes Bancaires (CB), Caisse des Dépôts, and INSEE.
+                        </p>
+
+                        
+                    
                     </section>
                 
                     <section class="methodology">
                         <h3>Data Source</h3>
                         <p>
-                            To conduct this analysis, we utilized demographic data from <strong>INSEE</strong>, which provides detailed population statistics, including density at a granular level. INSEE's dataset covers over 65 million residents and includes data at multiple geographical scales, with the most precise being a 1 km² grid. This high-resolution data helps us better understand local demographic patterns and identify areas with limited access to financial services.
+                            To conduct this analysis, we use demographic data from <a href="https://www.insee.fr/fr/accueil" target="_blank" rel="noopener noreferrer">INSEE</a>, which provides detailed population statistics, including density at a granular level. INSEE's dataset covers over 65 million residents and includes data at multiple geographical scales, with the most precise being a 1 km² grid. This high-resolution data helps us better understand local demographic patterns and identify areas with limited access to financial services.
                         </p>
                         <p>
-                            Information on ATM locations was sourced from <strong>Groupement Carte Bancaire</strong>, enabling precise geolocation of cash withdrawal points across the country.
+                            Information on ATM locations is sourced from <a href="https://www.cartes-bancaires.com/" target="_blank" rel="noopener noreferrer">Groupement des Cartes Bancaires (CB)</a>, enabling precise geolocation of cash withdrawal points across the country.
                         </p>
                     </section>
 
                     <section class="data">
-                        <h3>Calculations</h3>
+                        <h3>Methodology</h3>
+
+                        <p><strong>Travel Distance Calculations</strong></p>
                         <p>
-                            The travel distance calculations were based on a <strong>1000x1000 meter geographical grid</strong> across France. Each distance was measured from the nearest official address to the center of every populated hectare, ensuring a realistic assessment of accessibility.
+                            The travel distance calculations are based on a 1000x1000 meter geographical grid across France. Each distance is measured from the nearest official address to the center of every populated hectare, ensuring a realistic assessment of accessibility.
                         </p>
                         <p>
-                            Distances are computed using the Distancier METRIC tool provided by INSEE, which estimates travel distances along the road network using <strong>OpenStreetMap</strong> data. For each 1 km² grid cell, the road distance to the nearest cash access point was calculated.
+                            Distances are computed using INSEE's <a href="http://www.progedo-adisp.fr/apf_metric.php" target="_blank" rel="noopener noreferrer">Distancier METRIC</a> tool, which estimates travel distances along the road network using OpenStreetMap data. For each 1 km² grid cell, the road distance to the nearest cash access point is calculated.
                         </p>
                         <p>
-                            These distances were then aggregated at the <strong>commune level</strong> using a <strong>population-weighted average</strong>, ensuring that more densely populated areas have a proportionally greater influence in the calculation.
+                            These distances are then aggregated at the commune level using a population-weighted average. This ensures that more densely populated areas have a proportionally greater influence on the calculation.
                         </p>
 
                     </section>
                     <br></br>
                         <p>
-                             This methodology was inspired by the <a href="https://dashboard.moneymap.ch" target="_blank" rel="noopener noreferrer">Swiss dashboard</a> on financial service accessibility, adapted here to the French territory.
+                             This methodology is inspired by the <a href="https://dashboard.moneymap.ch" target="_blank" rel="noopener noreferrer">Swiss Money Map</a> on financial service accessibility.
                         </p>
 
 
