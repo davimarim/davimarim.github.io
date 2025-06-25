@@ -6,34 +6,52 @@ document.addEventListener("DOMContentLoaded", async function () {
     }).addTo(map);
 
     const sqlPromise = initSqlJs({ locateFile: file => `libs/sql-wasm.wasm` });
-    const dbPromise = fetch("data/communes.sqlite")
+    const dbPromise = fetch("data/communes_2018_2024.sqlite")
         .then(res => res.arrayBuffer())
         .then(buf => sqlPromise.then(SQL => new SQL.Database(new Uint8Array(buf))));
     let totalPopulationFrance = 0;
 
 
     dbPromise.then(db => {
-
-        let selectedEquipment = "nearest_ATM";
+        let selectedYear = "2024";
+        let selectedEquipmentBase = "nearest_ATM";
+        let selectedEquipment = `${selectedEquipmentBase}_${selectedYear}`;
         let selectedDepartment = "";
         let selectedRegion = "";
         let selectedLibdens = "";
 
-        const equipmentDropdown = document.getElementById("equipment-select");
-
-        equipmentDropdown.querySelectorAll(".dropdown-item").forEach(item => {
+        const yearDropdown = document.getElementById("year-select");
+        yearDropdown.querySelectorAll(".dropdown-item").forEach(item => {
             item.addEventListener("click", function () {
-                selectedEquipment = this.getAttribute("data-value");
-                document.getElementById("equipmentDropdown").textContent = this.textContent;
+                selectedYear = this.getAttribute("data-value");
+                document.getElementById("yearDropdown").textContent = selectedYear;
+                selectedEquipment = `${selectedEquipmentBase}_${selectedYear}`;
                 loadMapData(db, selectedDepartment, selectedRegion, selectedLibdens, selectedEquipment);
-                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_ATM", "figATM");
-                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_ATM", "figATM_2");
-                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_Bank", "figBank");
-                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_Bank", "figBank_2");
-                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP", "figBP_PC");
-                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP", "figBP_PC");
+                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_ATM_" + selectedYear, "figATM");
+                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_ATM_" + selectedYear, "figATM_2");
+                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_Bank_" + selectedYear, "figBank");
+                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_Bank_" + selectedYear, "figBank_2");
+                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP_" + selectedYear, "figBP_PC");
+                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP_" + selectedYear, "figBP_PC_2");
             });
         });
+
+        const equipmentDropdown = document.getElementById("equipment-select");
+        equipmentDropdown.querySelectorAll(".dropdown-item").forEach(item => {
+            item.addEventListener("click", function () {
+                selectedEquipmentBase = this.getAttribute("data-value");
+                selectedEquipment = `${selectedEquipmentBase}_${selectedYear}`;
+                document.getElementById("equipmentDropdown").textContent = this.textContent;
+                loadMapData(db, selectedDepartment, selectedRegion, selectedLibdens, selectedEquipment);
+                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_ATM_" + selectedYear, "figATM");
+                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_ATM_" + selectedYear, "figATM_2");
+                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_Bank_" + selectedYear, "figBank");
+                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_Bank_" + selectedYear, "figBank_2");
+                loadFigure1(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP_" + selectedYear, "figBP_PC");
+                loadFigure2(db, selectedDepartment, selectedRegion, selectedLibdens, "nearest_BP_" + selectedYear, "figBP_PC_2");
+            });
+        });
+
 
         totalPopulationFrance = db.exec("SELECT SUM(total_population) FROM communes;")[0].values[0][0];
         // Populate department dropdown
@@ -50,12 +68,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 selectedRegion = "";
                 selectedLibdens = "";
                 loadMapData(db, dep[0], "", "", selectedEquipment);
-                loadFigure1(db, dep[0], "", "", "nearest_ATM", "figATM");
-                loadFigure2(db, dep[0], "", "", "nearest_ATM", "figATM_2");
-                loadFigure1(db, dep[0], "", "", "nearest_Bank", "figBank");
-                loadFigure2(db, dep[0], "", "", "nearest_Bank", "figBank_2");
-                loadFigure1(db, dep[0], "", "", "nearest_BP", "figBP_PC");
-                loadFigure2(db, dep[0], "", "", "nearest_BP", "figBP_PC_2");
+                loadFigure1(db, dep[0], "", "", "nearest_ATM_" + selectedYear, "figATM");
+                loadFigure2(db, dep[0], "", "", "nearest_ATM_" + selectedYear, "figATM_2");
+                loadFigure1(db, dep[0], "", "", "nearest_Bank_" + selectedYear, "figBank");
+                loadFigure2(db, dep[0], "", "", "nearest_Bank_" + selectedYear, "figBank_2");
+                loadFigure1(db, dep[0], "", "", "nearest_BP_" + selectedYear, "figBP_PC");
+                loadFigure2(db, dep[0], "", "", "nearest_BP_" + selectedYear, "figBP_PC_2");
             });
             departmentDropdown.appendChild(listItem);
         });
@@ -74,12 +92,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 selectedDepartment = "";
                 selectedLibdens = "";
                 loadMapData(db, "", reg[0], "", selectedEquipment);
-                loadFigure1(db, "", reg[0], "", "nearest_ATM", "figATM");
-                loadFigure2(db, "", reg[0], "", "nearest_ATM", "figATM_2");
-                loadFigure1(db, "", reg[0], "", "nearest_Bank", "figBank");
-                loadFigure2(db, "", reg[0], "", "nearest_Bank", "figBank_2");
-                loadFigure1(db, "", reg[0], "", "nearest_BP", "figBP_PC");
-                loadFigure2(db, "", reg[0], "", "nearest_BP", "figBP_PC_2");
+                loadFigure1(db, "", reg[0], "", "nearest_ATM_" + selectedYear, "figATM");
+                loadFigure2(db, "", reg[0], "", "nearest_ATM_" + selectedYear, "figATM_2");
+                loadFigure1(db, "", reg[0], "", "nearest_Bank_" + selectedYear, "figBank");
+                loadFigure2(db, "", reg[0], "", "nearest_Bank_" + selectedYear, "figBank_2");
+                loadFigure1(db, "", reg[0], "", "nearest_BP_" + selectedYear, "figBP_PC");
+                loadFigure2(db, "", reg[0], "", "nearest_BP_" + selectedYear, "figBP_PC_2");
             });
             regionDropdown.appendChild(listItem);
         });
@@ -122,24 +140,24 @@ document.addEventListener("DOMContentLoaded", async function () {
                 selectedDepartment = "";
                 selectedRegion = "";
                 loadMapData(db, "", "", ld[0], selectedEquipment);
-                loadFigure1(db, "", "", ld[0], "nearest_ATM", "figATM");
-                loadFigure2(db, "", "", ld[0], "nearest_ATM", "figATM_2");
-                loadFigure1(db, "", "", ld[0], "nearest_Bank", "figBank");
-                loadFigure2(db, "", "", ld[0], "nearest_Bank", "figBank_2");
-                loadFigure1(db, "", "", ld[0], "nearest_BP", "figBP_PC");
-                loadFigure2(db, "", "", ld[0], "nearest_BP", "figBP_PC_2");
+                loadFigure1(db, "", "", ld[0], "nearest_ATM_" + selectedYear, "figATM");
+                loadFigure2(db, "", "", ld[0], "nearest_ATM_" + selectedYear, "figATM_2");
+                loadFigure1(db, "", "", ld[0], "nearest_Bank_" + selectedYear, "figBank");
+                loadFigure2(db, "", "", ld[0], "nearest_Bank_" + selectedYear, "figBank_2");
+                loadFigure1(db, "", "", ld[0], "nearest_BP_" + selectedYear, "figBP_PC");
+                loadFigure2(db, "", "", ld[0], "nearest_BP_" + selectedYear, "figBP_PC_2");
             });
             libdensDropdown.appendChild(listItem);
         });
 
         document.getElementById("resetButton").addEventListener("click", function() {
             loadMapData(db, "", "", "", selectedEquipment);
-            loadFigure1(db, "", "", "", "nearest_ATM", "figATM");
-            loadFigure2(db, "", "", "", "nearest_ATM", "figATM_2");
-            loadFigure1(db, "", "", "", "nearest_Bank", "figBank");
-            loadFigure2(db, "", "", "", "nearest_Bank", "figBank_2");
-            loadFigure1(db, "", "", "", "nearest_BP", "figBP_PC");
-            loadFigure2(db, "", "", "", "nearest_BP", "figBP_PC_2");
+            loadFigure1(db, "", "", "", "nearest_ATM_" + selectedYear, "figATM");
+            loadFigure2(db, "", "", "", "nearest_ATM_" + selectedYear, "figATM_2");
+            loadFigure1(db, "", "", "", "nearest_Bank_" + selectedYear, "figBank");
+            loadFigure2(db, "", "", "", "nearest_Bank_" + selectedYear, "figBank_2");
+            loadFigure1(db, "", "", "", "nearest_BP_" + selectedYear, "figBP_PC");
+            loadFigure2(db, "", "", "", "nearest_BP_" + selectedYear, "figBP_PC_2");
             document.getElementById("departmentDropdown").textContent = "Default";
             document.getElementById("regionDropdown").textContent =  "Default";
             document.getElementById("libdensDropdown").textContent = "Default";
@@ -150,15 +168,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         
 
         loadMapData(db, "", "", "", selectedEquipment);
-        loadFigure1(db, "", "", "", "nearest_ATM", "figATM");
-        loadFigure2(db, "", "", "", "nearest_ATM", "figATM_2");
-        loadFigure1(db, "", "", "", "nearest_Bank", "figBank");
-        loadFigure2(db, "", "", "", "nearest_Bank", "figBank_2");
-        loadFigure1(db, "", "", "", "nearest_BP", "figBP_PC");
-        loadFigure2(db, "", "", "", "nearest_BP", "figBP_PC_2");
+        loadFigure1(db, "", "", "", "nearest_ATM_" + selectedYear, "figATM");
+        loadFigure2(db, "", "", "", "nearest_ATM_" + selectedYear, "figATM_2");
+        loadFigure1(db, "", "", "", "nearest_Bank_" + selectedYear, "figBank");
+        loadFigure2(db, "", "", "", "nearest_Bank_" + selectedYear, "figBank_2");
+        loadFigure1(db, "", "", "", "nearest_BP_" + selectedYear, "figBP_PC");
+        loadFigure2(db, "", "", "", "nearest_BP_" + selectedYear, "figBP_PC_2");
     });
-
-
 
     // Info Control
     const info = L.control();
@@ -198,7 +214,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         });
 
-        let query = "SELECT * FROM communes WHERE 1=1";
+        // Criar query dinâmico baseado no nome da coluna (ex: nearest_ATM_2024)
+        let query = `SELECT NOM, geometry, total_population, ${selectedEquipment} FROM communes WHERE 1=1`;
         if (department) query += ` AND INSEE_DEP = '${department}'`;
         if (region) query += ` AND INSEE_REG = '${region}'`;
         if (libdens) query += ` AND libdens = '${libdens}'`;
@@ -209,34 +226,26 @@ document.addEventListener("DOMContentLoaded", async function () {
         let weightedDistanceSum = 0;
         let totalHouseholds5km = 0;
 
-        const equipmentColumnIndexes = {
-            "nearest_ATM": 8,
-            "nearest_Bank": 9,
-            "nearest_BP": 10
-        };
-    
-        // Get the correct column index based on selectedEquipment
-        const equipmentIndex = equipmentColumnIndexes[selectedEquipment];
-    
-
         const geoJsonData = {
-            type: "FeatureCollection",
-            features: results.map(row => {
-                const population = row[11] || 0;
-                const distance = row[equipmentIndex] || 0;
+                type: "FeatureCollection",
+                features: results.map(row => {
+                    const name = row[0];
+                    const geometry = JSON.parse(row[1]);
+                    const population = row[2] || 0;
+                    const distance = row[3] || 0;
 
-                totalPopulation += population;
-                weightedDistanceSum += population * distance;
-                if (distance <= 5000) {
-                    totalHouseholds5km += population;
-                }
+                    totalPopulation += population;
+                    weightedDistanceSum += population * distance;
+                    if (distance <= 5000) {
+                        totalHouseholds5km += population;
+                    }
 
-                return {
-                    type: "Feature",
-                    properties: { name: row[1], selectedEquipment: distance, total_population: population },
-                    geometry: JSON.parse(row[4])
-                };
-            })
+                    return {
+                        type: "Feature",
+                        properties: { name, selectedEquipment: distance, total_population: population },
+                        geometry
+                    };
+                })
         };
 
         updateStatistics(results.length, totalPopulation, weightedDistanceSum, totalHouseholds5km);
